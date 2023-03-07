@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>商品列表</title>
+		<script src="js/jquery.js"></script>
+		<script src="js/my.js"></script>
+	</head>
+	<style>
+		span{
+			display: inline-block;
+			width: 130px;
+		}
+	</style>
+	<body>
+		<p></p>
+		<div style="margin: 10px 0px;">
+			<span>id</span>
+			<span>商品名称</span>
+			<span>价格</span>
+		</div>
+		<div id="container">
+			
+		</div>
+		
+	</body>
+	<script>
+		
+		$(document).ready(function(){
+			
+		});
+		
+		
+		var Request = new Object();
+		Request = GetRequest();
+		var userid,username;
+		uid = Request['uid'];
+		uname = Request['uname'];
+		$("p").text("欢迎你：" + uname);
+		
+		$.ajax({
+			type: "get",
+			url: "http://localhost:8080/getGoods",
+			dataType:"json",
+			success: function(data){
+				if(data.state == 0){ //获取数据成功
+					var content = data.data;
+					var str = '';
+					for(var i = 0; i < content.length; i++){
+						str += '<div class="item">' + 
+									'<span class="id">' + content[i].id + '</span>' +
+									'<span class="name">' + content[i].name + '</span>' +
+									'<span class="price">' + content[i].price + '</span>' +
+									'<a href = goodsDetail.html?gid='+ content[i].id + "&uid="+uid +'>详情</a>' +
+								'</div>';
+					}
+					$("#container").html(str);
+					
+					
+				} 
+				
+					
+			}
+		});
+	</script>
+</html>
